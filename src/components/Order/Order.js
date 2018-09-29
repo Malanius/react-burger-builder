@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Burger from '../Burger/Burger';
+
 import classes from './Order.css';
 
 export default (props) => {
@@ -34,6 +36,7 @@ export default (props) => {
         <div className={classes.Order}>
             <p>Ingredients: {ingredientOutput} </p>
             <p>Price: <strong>${Number.parseFloat(props.price).toFixed(2)}</strong></p>
+            <Burger ingredients={props.ingredients} />
         </div>
     )
 }
