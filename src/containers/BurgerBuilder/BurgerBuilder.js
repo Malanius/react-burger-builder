@@ -29,21 +29,21 @@ class BurgerBuilder extends Component {
 
     componentDidMount() {
         //Fake ingedients right now
-        this.setState({
-            ingredients: {
-                salad: 1,
-                bacon: 1,
-                cheese: 1,
-                meat: 1
-            }, purchasable: true
-        })
-        // axios.get('/ingredients.json')
-        //     .then(response => {
-        //         this.setState({ ingredients: response.data });
-        //     })
-        //     .catch(error => {
-        //         this.setState({error: true})
-        //     });
+        // this.setState({
+        //     ingredients: {
+        //         salad: 1,
+        //         bacon: 1,
+        //         cheese: 1,
+        //         meat: 1
+        //     }, purchasable: true
+        // })
+        axios.get('/ingredients.json')
+            .then(response => {
+                this.setState({ ingredients: response.data });
+            })
+            .catch(error => {
+                this.setState({ error: true })
+            });
     }
 
     updatePurchaseState(ingredients) {

@@ -7,7 +7,7 @@ export default () => {
     return (
         <ul className={classes.NavigationItems}>
             <NavigationItem link="/" exact>Burger Builder</NavigationItem>
-            <NavigationItem link="/checkout">Checkout</NavigationItem>
+            <NavigationItem link="/orders">Orders</NavigationItem>
         </ul>
     )
 }
