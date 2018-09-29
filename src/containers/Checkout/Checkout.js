@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
+import { Route } from 'react-router-dom';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
+import ContactData from './ContactData/ContactData';
 
 export default class extends Component {
     state = {
@@ -23,10 +25,10 @@ export default class extends Component {
         this.setState({
             ingredients: {
                 //The + converts the string to the nubmer
-                salad: +values.salad,
-                bacon: +values.bacon,
-                cheese: +values.cheese,
-                meat: +values.meat
+                salad: values.salad ? +values.salad : 0,
+                bacon: values.bacon ? +values.bacon : 0,
+                cheese: values.cheese ? +values.cheese : 0,
+                meat: values.meat ? +values.meat : 0,
             }
         })
     }
@@ -46,6 +48,7 @@ export default class extends Component {
                     ingredients={this.state.ingredients}
                     checkoutCancelled={this.checkoutCancelledHandler}
                     checkoutContinued={this.checkoutContinuedHandler} />
+                <Route path={this.props.match.path + '/contact'} component={ContactData}  />
             </div>
         )
     }
