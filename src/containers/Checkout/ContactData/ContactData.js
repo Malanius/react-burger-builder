@@ -17,7 +17,11 @@ export default class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Your name'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false
             },
             street: {
                 elementType: 'input',
@@ -25,7 +29,11 @@ export default class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Your address'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false
             },
             zipcode: {
                 elementType: 'input',
@@ -33,7 +41,13 @@ export default class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Your postal code'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true,
+                    minLenght: 5,
+                    maxLenght: 5
+                },
+                valid: false
             },
             country: {
                 elementType: 'input',
@@ -41,7 +55,11 @@ export default class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Your country'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false
             },
             email: {
                 elementType: 'input',
@@ -49,7 +67,11 @@ export default class ContactData extends Component {
                     type: 'email',
                     placeholder: 'Your email'
                 },
-                value: ''
+                value: '',
+                validation: {
+                    required: true,
+                },
+                valid: false
             },
             deliveryMethod: {
                 elementType: 'select',
@@ -71,7 +93,7 @@ export default class ContactData extends Component {
         //.json for firebase only
         const formData = {};
         for (let formElementIdentifier in this.state.orderForm) {
-            formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
+            formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value.trim();
         }
         const order = {
             ingredients: this.props.ingredients,
@@ -94,8 +116,28 @@ export default class ContactData extends Component {
         const updatedFormElement = { ...updatedOrderForm[inputIdentifier] };
 
         updatedFormElement.value = event.target.value;
+        updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
         updatedOrderForm[inputIdentifier] = updatedFormElement;
+        console.log(updatedFormElement);
         this.setState({ orderForm: updatedOrderForm });
+    }
+
+    checkValidity(value, rules) {
+        let isValid = true;
+
+        if (rules.required) {
+            isValid = value.trim() !== '' && isValid;
+        }
+
+        if (rules.minLenght) {
+            isValid = value.length >= rules.minLenght && isValid;
+        }
+
+        if (rules.maxLenght) {
+            isValid = value.length <= rules.maxLenght && isValid;
+        }
+
+        return isValid;
     }
 
     render() {
