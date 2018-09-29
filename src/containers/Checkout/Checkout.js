@@ -13,7 +13,6 @@ export default class extends Component {
 
     componentWillMount() {
         this.updateIngredients();
-        //console.log(this.state.ingredients);
     }
 
     updateIngredients = () => {
@@ -26,7 +25,7 @@ export default class extends Component {
                 cheese: values.cheese ? +values.cheese : 0,
                 meat: values.meat ? +values.meat : 0
             },
-            totalPrice: values.totalPrice ? +values.totalPrice : 0
+            totalPrice: values.price ? +values.price : 0
         })
     }
 
@@ -39,7 +38,7 @@ export default class extends Component {
     }
 
     render() {
-        return (
+        return (            
             <div>
                 <CheckoutSummary
                     ingredients={this.state.ingredients}
