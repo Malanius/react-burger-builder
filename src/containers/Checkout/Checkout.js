@@ -1,15 +1,34 @@
 import React, { Component } from 'react';
+import queryString from 'query-string';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 
 export default class extends Component {
     state = {
         ingredients: {
-            salad: 1,
-            bacon: 1,
-            cheese: 1,
-            meat: 1
+            salad: 0,
+            bacon: 0,
+            cheese: 0,
+            meat: 0
         }
+    }
+
+    componentDidMount() {
+        this.updateIngredients();
+        console.log(this.state.ingredients);
+    }
+
+    updateIngredients = () => {
+        const values = queryString.parse(this.props.location.search);
+        this.setState({
+            ingredients: {
+                //The + converts the string to the nubmer
+                salad: +values.salad,
+                bacon: +values.bacon,
+                cheese: +values.cheese,
+                meat: +values.meat
+            }
+        })
     }
 
     checkoutCancelledHandler = () => {
