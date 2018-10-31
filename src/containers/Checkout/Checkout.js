@@ -7,7 +7,6 @@ import ContactData from './ContactData/ContactData';
 
 class Checkout extends Component {
 
-
     checkoutCancelledHandler = () => {
         this.props.history.goBack();
     }
@@ -19,8 +18,10 @@ class Checkout extends Component {
     render() {
         let summary = <Redirect to="/" />;
         if (this.props.ingredients) {
+            const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
             summary = (
                 <div>
+                    {purchasedRedirect}
                     <CheckoutSummary
                         ingredients={this.props.ingredients}
                         checkoutCancelled={this.checkoutCancelledHandler}
@@ -36,6 +37,7 @@ class Checkout extends Component {
 
 const mapStateToProps = (state) => ({
     ingredients: state.builder.ingredients,
+    purchased: state.order.purchased
 })
 
 export default connect(mapStateToProps)(Checkout);
