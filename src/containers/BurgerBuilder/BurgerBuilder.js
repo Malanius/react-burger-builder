@@ -16,28 +16,11 @@ import * as actions from '../../store/actions/index'
 class BurgerBuilder extends Component {
 
     state = {
-        purchasing: false,
-        loading: false,
-        error: false
+        purchasing: false
     }
 
     componentDidMount() {
-        //Fake ingedients right now
-        // this.setState({
-        //     ingredients: {
-        //         salad: 1,
-        //         bacon: 1,
-        //         cheese: 1,
-        //         meat: 1
-        //     }, purchasable: true
-        // })
-        // axios.get('/ingredients.json')
-        //     .then(response => {
-        //         this.setState({ ingredients: response.data });
-        //     })
-        //     .catch(error => {
-        //         this.setState({ error: true })
-        //     });
+        this.props.onInitIngredients();
     }
 
     updatePurchaseState(ingredients) {
@@ -73,7 +56,7 @@ class BurgerBuilder extends Component {
         }
 
         let orderSummary = null;
-        let burgerView = this.state.error ? <p>This is seriosly broken, can't load ingredients!</p> : <Spinner />;
+        let burgerView = this.props.error ? <p>This is seriosly broken, can't load ingredients!</p> : <Spinner />;
 
         if (this.props.ingredients) {
             burgerView = (
@@ -95,10 +78,6 @@ class BurgerBuilder extends Component {
                 purchaseContinued={this.purchaseContinueHandler} />
         }
 
-        if (this.state.loading) {
-            orderSummary = <Spinner />;
-        }
-
         return (
             <Aux>
                 <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelledHandler}>
@@ -112,11 +91,13 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = (state) => ({
     ingredients: state.ingredients,
-    totalPrice: state.totalPrice
+    totalPrice: state.totalPrice,
+    error: state.error
 })
 
 const mapDispatchToProps = dispatch => {
     return {
+        onInitIngredients: () => dispatch(actions.initIngredients()),
         onIngredientAdded: (ing) => dispatch(actions.addIngredient(ing)),
         onIngredientRemoved: (ing) => dispatch(actions.removeIngredient(ing))
     }
