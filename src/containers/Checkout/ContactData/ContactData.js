@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from '../../../axios-orders';
+import { connect } from 'react-redux';
 
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
@@ -7,7 +8,7 @@ import Input from '../../../components/UI/Input/Input';
 
 import classes from './ContactData.css';
 
-export default class ContactData extends Component {
+class ContactData extends Component {
     state = {
         orderForm: {
             //dummy data
@@ -102,7 +103,6 @@ export default class ContactData extends Component {
     orderHandler = (event) => {
         event.preventDefault(); //Don't allow the form to reload the page
         this.setState({ loading: true });
-        //.json for firebase only
         const formData = {};
         for (let formElementIdentifier in this.state.orderForm) {
             formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value.trim();
@@ -112,6 +112,7 @@ export default class ContactData extends Component {
             price: this.props.price,
             orderData: formData
         }
+        //.json for firebase only
         axios.post('/orders.json', order)
             .then(response => {
                 this.setState({ loading: false });
@@ -201,3 +202,11 @@ export default class ContactData extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+    ingredients: state.ingredients,
+    price: state.totalPrice
+})
+
+
+export default connect(mapStateToProps)(ContactData);

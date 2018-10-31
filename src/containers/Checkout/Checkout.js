@@ -1,33 +1,12 @@
 import React, { Component } from 'react';
-import queryString from 'query-string';
 import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
 
-export default class extends Component {
-    state = {
-        ingredients: null,
-        totalPrice: 0
-    }
+class Checkout extends Component {
 
-    componentWillMount() {
-        this.updateIngredients();
-    }
-
-    updateIngredients = () => {
-        const values = queryString.parse(this.props.location.search);
-        this.setState({
-            ingredients: {
-                //The + converts the string to the nubmer
-                salad: values.salad ? +values.salad : 0,
-                bacon: values.bacon ? +values.bacon : 0,
-                cheese: values.cheese ? +values.cheese : 0,
-                meat: values.meat ? +values.meat : 0
-            },
-            totalPrice: values.price ? +values.price : 0
-        })
-    }
 
     checkoutCancelledHandler = () => {
         this.props.history.goBack();
@@ -38,15 +17,21 @@ export default class extends Component {
     }
 
     render() {
-        return (            
+        return (
             <div>
                 <CheckoutSummary
-                    ingredients={this.state.ingredients}
+                    ingredients={this.props.ingredients}
                     checkoutCancelled={this.checkoutCancelledHandler}
                     checkoutContinued={this.checkoutContinuedHandler} />
                 <Route path={this.props.match.path + '/contact'}
-                    render={(props) => (<ContactData ingredients={this.state.ingredients} price={this.state.totalPrice} {...props} />)} />
+                    component={ContactData} />
             </div>
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+    ingredients: state.ingredients,
+})
+
+export default connect(mapStateToProps)(Checkout);
