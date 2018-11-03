@@ -11,10 +11,12 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import burgerBuilderReducer from './store/reducers/burgerBuilder';
 import orderReducer from './store/reducers/order';
+import ordersReducer from './store/reducers/orders';
 
 const rootReducer = combineReducers({
     builder: burgerBuilderReducer,
-    order: orderReducer
+    order: orderReducer,
+    orders: ordersReducer
 });
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
