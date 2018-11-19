@@ -42,7 +42,8 @@ class Auth extends Component {
                 valid: false,
                 touched: false
             }
-        }
+        },
+        isSignUp: true
     }
 
     inputChangedHandler = (event, controlName) => {
@@ -56,6 +57,14 @@ class Auth extends Component {
             }
         }
         this.setState({ controls: updatedControls });
+    }
+
+    swichAuthModeHandler = () => {
+        this.setState(prevState => {
+            return {
+                isSignUp: !prevState.isSignUp
+            }
+        })
     }
 
     checkValidity(value, rules) {
@@ -82,7 +91,7 @@ class Auth extends Component {
 
     submitHandler = (event) => {
         event.preventDefault();
-        this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value);
+        this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value, this.state.isSignUp);
     }
 
     render() {
@@ -112,8 +121,12 @@ class Auth extends Component {
             <div className={classes.Auth}>
                 <form onSubmit={this.submitHandler}>
                     {form}
-                    <Button btnType="Success">Submit</Button>
+                    <Button btnType="Success">{this.state.isSignUp ? 'Sing up!' : 'Login'}</Button>
                 </form>
+                <Button btnType="Danger"
+                    clicked={this.swichAuthModeHandler}>
+                    Swith to {this.state.isSignUp ? 'SignIn' : 'SignUp'}
+                </Button>
             </div>
         )
     }
@@ -121,7 +134,7 @@ class Auth extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onAuth: (email, password) => dispatch(actions.auth(email, password))
+        onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp))
     }
 }
 
