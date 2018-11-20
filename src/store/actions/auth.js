@@ -23,6 +23,13 @@ export const authFail = (error) => {
     }
 }
 
+export const setAuthRedirectTo = (path) => {
+    return {
+        type: actionTypes.SET_AUTH_REDIRECT,
+        path: path
+    }
+}
+
 export const logOut = () => {
     return {
         type: actionTypes.AUTH_LOGOUT
@@ -36,7 +43,6 @@ export const checkAuthTimeout = (expirationTime) => {
         }, expirationTime * 1000);
     }
 }
-
 
 export const auth = (email, password, isSignUp) => {
     return dispatch => {
