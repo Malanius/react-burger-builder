@@ -8,13 +8,13 @@ import Input from '../../../components/UI/Input/Input';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler'
 import * as actions from '../../../store/actions/index';
 import { updateObject } from '../../../shared/util';
+import { checkValidity } from '../../../shared/validation';
 
 import classes from './ContactData.css';
 
 class ContactData extends Component {
     state = {
         orderForm: {
-            //dummy data
             name: {
                 elementType: 'input',
                 elementConfig: {
@@ -122,7 +122,7 @@ class ContactData extends Component {
 
         const updatedFormElement = updateObject(this.state.orderForm[inputIdentifier], {
             value: event.target.value,
-            valid: this.checkValidity(event.target.value, this.state.orderForm[inputIdentifier].validation),
+            valid: checkValidity(event.target.value, this.state.orderForm[inputIdentifier].validation),
             touched: true
         });
 
@@ -136,28 +136,6 @@ class ContactData extends Component {
         }
 
         this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
-    }
-
-    checkValidity(value, rules) {
-        if (!rules) {
-            return true;
-        }
-
-        let isValid = true;
-
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        if (rules.minLenght) {
-            isValid = value.length >= rules.minLenght && isValid;
-        }
-
-        if (rules.maxLenght) {
-            isValid = value.length <= rules.maxLenght && isValid;
-        }
-
-        return isValid;
     }
 
     render() {
